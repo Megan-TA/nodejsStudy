@@ -32,6 +32,8 @@ console.log('----------------------1111111111-------------------------------');
 
 var dataSync = fs.readFileSync('test2.txt', 'utf-8');
 
+
+
 console.log(dataSync);
 
 console.log('end2.');
