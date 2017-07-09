@@ -1,0 +1,15 @@
+{
+  "name": "nodejsstudy",
+  "version": "1.0.0",
+  "description": "learn nodejs step by step",
+  "author": "hc <hc1132107224@163.com>",
+  "private": true,
+  "license": "nodejs",
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "devDependencies": {
+    "express": "^4.15.3"
+  }
+}

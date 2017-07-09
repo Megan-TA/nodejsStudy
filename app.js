@@ -43,16 +43,6 @@ console.log('----------------------2222222222-------------------------------');
 
 
 
-
-
-
-
-
-console.log('----------------------33333333333-------------------------------');
-
-
-
-
 http.createServer(function (reg, res) {
 	res.writeHead(200, { 'Content-Type' : 'text/html' });
 	res.write('<h1>Hi NodeJS</h1>');
@@ -62,4 +52,4 @@ http.createServer(function (reg, res) {
 
 
 
-console.log('url地址栏输入127.0.0.1:3000即可访问');``
+console.log('url地址栏输入127.0.0.1:3000即可访问');
