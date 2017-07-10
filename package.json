@@ -10,6 +10,7 @@
     "npm": ">= 3.0.0"
   },
   "devDependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "supervisor": "^0.12.0"
   }
 }
