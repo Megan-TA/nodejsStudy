@@ -5,8 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//引入mongo部分
+var session = require('express-session');
+// 用于存储session到mongo中
+var MongoStore = require('connect-mongo')(session);
+
+
 var index = require('./routes/index');
 var users = require('./routes/users');
+
+var settings   = require('./settings');
 
 var app = express();
 
@@ -21,6 +29,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// session引入mongo临时会话cookie
+app.use(session({
+  secret: settings.cookieSecret,
+  store: new MongoStore({
+    // db: settings.db
+    // 跟着版本走
+    url: 'mongodb://localhost/nodejsStudy'
+  })
+}));
 
 app.use('/', index);
 app.use('/users', users);
