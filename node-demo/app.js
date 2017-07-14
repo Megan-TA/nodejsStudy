@@ -35,7 +35,7 @@ app.use(session({
   store: new MongoStore({
     // db: settings.db
     // 跟着版本走
-    url: 'mongodb://localhost/nodejsStudy'
+    url: 'mongodb://localhost'
   })
 }));
 
