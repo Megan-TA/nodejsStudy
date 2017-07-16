@@ -6,8 +6,28 @@
 	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
 	<link rel="stylesheet" href="/stylesheets/style.css"/>
     </head>
-    <body>
+    <body class="row">
+       
+       <header>
+            <h1><%= title %></h1>
+       </header>
+
+        <nav class="col-md-4">
+            <% if(user) { %>
+                <% if(name) { %> 
+                    <span>欢迎您：<%= name %></span>
+                <% } %>
+                <span><a title="主页" href="/">主页</a></span>
+                <span><a title="登出" href="/logout">登出</a></span>
+            <% } else { %>
+                <span><a title="登录" href="/login">登录</a></span>
+                <span><a title="注册" href="/reg">注册</a></span>
+            <% } %>
+        </nav>
+
         <!--主体部分-->
-        <div id="content">
+        <div id="content" class="col-md-8">  
+        
+        
 
         

@@ -5,16 +5,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// 上传中间件
+var multer = require('multer');
+
+var routes = require('./routes/index');
+var users = require('./routes/users');
+
+var settings = require('./settings');
+var flash = require('connect-flash');
 //引入mongo部分
 var session = require('express-session');
 // 用于存储session到mongo中
 var MongoStore = require('connect-mongo')(session);
 
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-
-var settings   = require('./settings');
 
 var app = express();
 
@@ -29,18 +32,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+
 // session引入mongo临时会话cookie
 app.use(session({
   secret: settings.cookieSecret,
+  key: settings.db,         // cookie name
+  resave: true,
+  saveUninitialized: false,
+  cookie: {maxAge:1000*60*60*24*30}, //30days
   store: new MongoStore({
-    // db: settings.db
+    // db: settings.db,
+    // host: settings.host,
+    // port: settings.port,
     // 跟着版本走
-    url: 'mongodb://localhost'
+    url: 'mongodb://localhost/nodejsStudy'
   })
 }));
 
-app.use('/', index);
-app.use('/users', users);
+// app.use('/', index);
+// app.use('/users', users);
+
+routes(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -59,5 +72,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 
 module.exports = app;
