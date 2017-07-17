@@ -109,7 +109,8 @@ module.exports = function(app){
       res.render('index',  { 
         title: '主页',
         user: req.session.user,
-        name: name
+        name: name,
+        error: req.flash('error').toString()
       });
 
     });
@@ -120,7 +121,8 @@ module.exports = function(app){
     app.get('/reg', function(req, res){
       res.render('reg',  {
          title: '注册',
-         user: req.session.user
+         user: req.session.user,
+         error: req.flash('error').toString()
       });
     });
     /**
@@ -179,7 +181,7 @@ module.exports = function(app){
         title: '登录',
         user: req.session.user,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString(),
+        errors: req.flash('error').toString()
       });
     });
     /**
