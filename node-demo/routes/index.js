@@ -4,6 +4,7 @@ var router = express.Router();
 var crypto = require('crypto');
 // 引入封装的数据库操作方法
 var User = require('../models/user');
+var Post = require('../models/post');
 var flash = require('connect-flash');
 
 
@@ -212,12 +213,56 @@ module.exports = function(app){
         req.session.user = user;
         req.flash('success', '登入成功');
         res.redirect('/');
-
       });
 
+    });
 
+    /**
+     * 发微博
+     * 先验证是否登录 只有登录的用户才会跳转发微博界面
+     */
+    app.post('/post', checkLogin);
+    app.post('/post', function(req, res){
+      var currentUser = req.session.user;
+      // req.body.post 获取到用户提交的内容
+      var post = new Post(currentUser, req.body.post);
+      post.save(function(err){
+        if(err){
+          req.flash('error', err);
+          return res.redirect('/');
+        }
+        req.flash('success', '发表成功');
+        req.redirect('/u/' + currentUser.name);
+      })
+    });
+
+
+    /**
+     * 用户微博详情页
+     */
+    app.get('/u/:user', function(req, res){
+      // 先验证用户是否存在
+      User.get(req.params.user, function(err, user){
+        if(!user){
+          req.flash('error', '用户不存在');
+          return res.redirect('/');
+        }
+        // 用户存在的情况 从数据库中获取相应微博内容
+        Post.get(user.name, function(err, posts){
+          if(err){
+            req.flash('error', err);
+            return res.redirect('/');
+          }
+          res.render('user', {
+            title: user.name,
+            posts: posts,
+            error: req.flash('error').toString()
+          });
+        });
+      });
       
     });
+
     /**
      * 离开页面
      */   

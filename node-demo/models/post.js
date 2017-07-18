@@ -18,6 +18,7 @@ Post.get = function(username, callback){
         if(err){
             return callback(err);
         }
+        // 找到posts 文档
         db.collection('posts', function(err, collection){
             if(err){
                 mongodb.close();
@@ -29,10 +30,50 @@ Post.get = function(username, callback){
             if(username){
                 query.username = username;
             }
-            collection.find(query).sort({time: -1}).toArray(function(err, doc){
-
+            collection.find(query).sort({time: -1}).toArray(function(err, docs){
+                mongodb.close();
+                if(err){
+                    return callback(err, null);
+                }
+                var posts =[];
+                docs.forEach(function(doc, index){
+                    var post = new Post(doc.user, doc.post, doc.time);
+                    posts.push(post);
+                });
+                callback(null, posts);
             });
 
         });
     });
 }
+
+
+Post.prototype.save = function(callback){
+    var post = {
+        user: this.user,
+        post: this.post,
+        time: this.time
+    };
+    mongodb.open(function(err, db){
+        if(err){
+            return callback(err, null);
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            // 为user属性添加索引
+            collection.ensureIndex('user');
+            collection.insert(post, {
+                save: true
+            },function(err, post){
+                mongodb.close();
+                if(err){
+                    return callback(err, null);
+                }
+                callback(err, post);
+            });
+        });
+    });
+};
