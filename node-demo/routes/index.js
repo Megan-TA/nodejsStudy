@@ -181,7 +181,7 @@ module.exports = function(app){
         title: '登录',
         user: req.session.user,
         success: req.flash('success').toString(),
-        errors: req.flash('error').toString()
+        error: req.flash('error').toString()
       });
     });
     /**
@@ -199,13 +199,13 @@ module.exports = function(app){
         }
         if(!user)
         {
-          req.flash(error, '用户不存在');
+          req.flash('error', '用户不存在');
           console.log('用户不存在');
           return res.redirect('/login');
         }
         if(user.password != password)
         {
-          req.flash(error, '用户口令错误');
+          req.flash('error', '用户口令错误');
           console.log('用户口令错误');
           return res.redirect('/login');
         }
