@@ -221,18 +221,29 @@ module.exports = function(app){
      * 发微博
      * 先验证是否登录 只有登录的用户才会跳转发微博界面
      */
+    app.get('/post', checkLogin);
+    app.get('/post', function (req, res) {
+      res.render('post', {
+          title: '发表',
+          user: req.session.user,
+          name: req.session.user.name
+      });
+    });
+    /**
+     * 提交微博
+     */
     app.post('/post', checkLogin);
     app.post('/post', function(req, res){
       var currentUser = req.session.user;
       // req.body.post 获取到用户提交的内容
-      var post = new Post(currentUser, req.body.post);
+      var post = new Post(currentUser.name, req.body.post);
       post.save(function(err){
         if(err){
           req.flash('error', err);
           return res.redirect('/');
         }
         req.flash('success', '发表成功');
-        req.redirect('/u/' + currentUser.name);
+        res.redirect('/u/' + currentUser.name);
       })
     });
 
@@ -240,9 +251,9 @@ module.exports = function(app){
     /**
      * 用户微博详情页
      */
-    app.get('/u/:user', function(req, res){
+    app.get('/u/:username', function(req, res){
       // 先验证用户是否存在
-      User.get(req.params.user, function(err, user){
+      User.get(req.params.username, function(err, user){
         if(!user){
           req.flash('error', '用户不存在');
           return res.redirect('/');
@@ -255,7 +266,9 @@ module.exports = function(app){
           }
           res.render('user', {
             title: user.name,
+            user: req.session.user,
             posts: posts,
+            name: user.name,
             error: req.flash('error').toString()
           });
         });

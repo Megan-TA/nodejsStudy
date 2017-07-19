@@ -8,7 +8,7 @@ function Post(username, post, time)
     {
         this.time = time;
     }else{
-        this.tiome = new Date();
+        this.time = new Date();
     }
 }
 
@@ -50,7 +50,7 @@ Post.get = function(username, callback){
 
 Post.prototype.save = function(callback){
     var post = {
-        user: this.user,
+        username: this.username,
         post: this.post,
         time: this.time
     };
@@ -77,3 +77,7 @@ Post.prototype.save = function(callback){
         });
     });
 };
+
+
+
+module.exports = Post;
