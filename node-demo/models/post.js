@@ -37,7 +37,7 @@ Post.get = function(username, callback){
                 }
                 var posts =[];
                 docs.forEach(function(doc, index){
-                    var post = new Post(doc.user, doc.post, doc.time);
+                    var post = new Post(doc.username, doc.post, doc.time);
                     posts.push(post);
                 });
                 callback(null, posts);

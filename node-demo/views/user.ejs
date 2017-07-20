@@ -1,3 +1,15 @@
 <% include header %>
-    <p>11111111111111</p>
+    <h2>这是过去发表的所有微博</h2>
+    <br>
+   <% if(posts.length > 0) { %>
+        <% for(var i = 0; i<=posts.length-1; i++ ) { %>
+            <% var item = posts[i] %>
+            <p><%= posts[i].username %></p>
+            <p><%= posts[i].post %></p>
+            <p>==============================</p>
+         <% }%> 
+   <% }else{ %>
+        <p>111111111111111</p>
+   <% } %>
+
 <% include footer %>
