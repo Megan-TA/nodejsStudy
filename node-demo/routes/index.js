@@ -5,101 +5,39 @@ var crypto = require('crypto');
 // 引入封装的数据库操作方法
 var User = require('../models/user');
 var Post = require('../models/post');
+// 提示
 var flash = require('connect-flash');
+// 上传图片的中间件配置
+var multer  = require('multer')
+var storage = multer.diskStorage({ 
+  // 设置保存图片的路径
+  destination: function (req, file, cb) {
+      cb(null, 'public/images/uploads/')
+  }, 
+  // 上传的图像重命名
+  filename: function (req, file, cb) {
+      var fileFormat = (file.originalname).split(".");
+      cb(null, file.fieldname + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);
+  }
+});
+var upload = multer({
+  storage: storage 
+});
 
-
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
-
-// /* -----------------------------test start------------------------------------ */
-// /**
-//  * test page
-//  */
-// router.get('/test', function(req, res, next) {
-//   res.render('test',  { title: 'I am from test Page!' });
-//   next();
-// });
-// /**
-//  * test page的子页面
-//  */
-// router.get('/test/:test', function(req, res, next) {
-//   res.render('test',  { title: 'My parent is test page~~' });
-// });
-// /**
-//  * 默认router不会匹配同一个规则,只会先取匹配到的第一个规则
-//  * 若想调用多个同一规则 需要调用next()来进行控制权转移
-//  */
-// router.get('/test', function(req, res, next) {
-//   console.log('--------------');
-//   console.log(req.param);
-//   console.log('--------------');
-// });
-// /**
-//  * 测试 验证二级路径名称验证
-//  */
-// var users = {
-//   'search': {
-//     name: 'Carbo',
-//     webSite: 'http://www.baidu.com'
-//   }
-// };
-
-// router.all('/user/:username', function(req, res, next){
-//   //  检查用户是否存在
-//   if(users[req.params.username])
-//   {
-//     next();
-//   }else{
-//     console.log(users);
-//     next(new Error( req.params.username + ' does not exist.' ));
-//   }
-
-// });
-
-// router.get('/user/:username', function(req, res){
-//   // 用户一定存在 直接展示
-//   res.send(JSON.stringify(users[req.params.username]));
-// });
-// /* -----------------------------test end------------------------------------ */
-
-// /**
-//  * 
-//  */
-// router.get('/u/:user', function(req, res){
- 
-// });
-// /**
-//  * 登录
-//  */
-// router.get('/login', function(req, res){
-
-// });
-// /**
-//  * 登录提交
-//  */
-// router.post('/login', function(req, res){
-
-// });
-// /**
-//  * 登出
-//  */
-// router.get('/logout', function(req, res){
-
-// });
-// /**
-//  * 登出提交
-//  */
-// router.post('/logout', function(req, res){
-
-// });
 
 
 module.exports = function(app){
 
+    var img = '';
+
     app.get('/', function(req, res){
       var name;
+      var imgPath;
+      if(img == ""){
+        imgpath = '';
+      }else{
+        imgpath = img;
+      }
       // 有用户信息吐出name展示
       if(!req.session.user){
         name = null;
@@ -111,7 +49,8 @@ module.exports = function(app){
         title: '主页',
         user: req.session.user,
         name: name,
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        imgpath: imgpath
       });
 
     });
@@ -166,12 +105,7 @@ module.exports = function(app){
           req.flash('success', '注册成功');
           res.redirect('/');
         });
-
-
-
       });
-
-
     });
     /**
      * 登录页
@@ -215,6 +149,28 @@ module.exports = function(app){
         res.redirect('/');
       });
 
+    });
+
+    /**
+     * 上传头像页面
+     */
+    app.get('/upload', checkLogin);
+    app.get('/upload', function(req, res){    
+          res.render('upload', {
+            title: '上传头像',
+            user: req.session.user,
+            name: req.session.user.name
+          })
+    });
+
+    /**
+     * 提交头像
+     * 提交的文件对象存放在中间件生成的req.file对象中
+     */
+    app.post('/upload', upload.single('useravatar'), function(req, res){
+       img = req.file.path.slice(7);
+       req.flash('success', '文件上传成功!');
+       res.redirect('/');
     });
 
     /**

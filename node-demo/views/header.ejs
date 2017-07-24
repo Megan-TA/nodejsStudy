@@ -16,7 +16,11 @@
             <% if(user) { %>
                 <% if(name) { %> 
                     <div class="">
-                        <img src="" alt="图片挂了啊~" class="index-header-img" width="180" height="180">
+                       <% if(imgpath !='') {%>
+                        <img src="<%= imgpath %>" alt="图片挂啦~">
+                       <% } else {%>
+                        <span><a title="上传" href="/upload">上传头像</a></span>
+                       <% } %>
                         <span>欢迎您：<%= name %></span>
                     </div>
                 <% } %>
