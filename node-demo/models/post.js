@@ -1,14 +1,15 @@
 var mongodb = require('./db');
 
-function Post(username, post, time)
+function Post(username, title, post, time)
 {
     this.username = username;
+    this.title  = title;
     this.post = post;
     if(time)
     {
         this.time = time;
     }else{
-        this.time = new Date();
+        this.time = new Date().toLocaleString();
     }
 }
 
@@ -37,7 +38,7 @@ Post.get = function(username, callback){
                 }
                 var posts =[];
                 docs.forEach(function(doc, index){
-                    var post = new Post(doc.username, doc.post, doc.time);
+                    var post = new Post(doc.username, doc.title, doc.post, doc.time);
                     posts.push(post);
                 });
                 callback(null, posts);
@@ -51,6 +52,7 @@ Post.get = function(username, callback){
 Post.prototype.save = function(callback){
     var post = {
         username: this.username,
+        title: this.title,
         post: this.post,
         time: this.time
     };

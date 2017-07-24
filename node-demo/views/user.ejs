@@ -1,11 +1,12 @@
 <% include header %>
-    <h2>这是过去发表的所有微博</h2>
+    <h4>这是过去发表的所有微博</h4>
     <br>
    <% if(posts.length > 0) { %>
         <% for(var i = 0; i<=posts.length-1; i++ ) { %>
             <% var item = posts[i] %>
-            <p><%= posts[i].username %></p>
-            <p><%= posts[i].post %></p>
+            <p>标题: <%= posts[i].title %></p>         
+            <p>内容: <%= posts[i].post %></p>
+            <p>时间: <%= posts[i].time %></p>
             <p>==============================</p>
          <% }%> 
    <% }else{ %>

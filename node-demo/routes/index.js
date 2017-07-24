@@ -224,7 +224,7 @@ module.exports = function(app){
     app.get('/post', checkLogin);
     app.get('/post', function (req, res) {
       res.render('post', {
-          title: '发表',
+          title: '发微博',
           user: req.session.user,
           name: req.session.user.name
       });
@@ -236,14 +236,14 @@ module.exports = function(app){
     app.post('/post', function(req, res){
       var currentUser = req.session.user;
       // req.body.post 获取到用户提交的内容
-      var post = new Post(currentUser.name, req.body.post);
+      var post = new Post(currentUser.name, req.body.title, req.body.post);
       post.save(function(err){
         if(err){
           req.flash('error', err);
           return res.redirect('/');
         }
         req.flash('success', '发表成功');
-        res.redirect('/u/' + encodeURI(currentUser.name));
+        res.redirect('/u/username=' + encodeURI(currentUser.name));
       })
     });
 
@@ -251,7 +251,7 @@ module.exports = function(app){
     /**
      * 用户微博详情页
      */
-    app.get('/u/:username', function(req, res){
+    app.get('/u/username=:username', function(req, res){
       // 先验证用户是否存在
       User.get(req.params.username, function(err, user){
         if(!user){

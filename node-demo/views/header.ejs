@@ -15,11 +15,16 @@
         <nav class="col-md-4">
             <% if(user) { %>
                 <% if(name) { %> 
-                    <span>欢迎您：<%= name %></span>
+                    <div class="">
+                        <img src="" alt="图片挂了啊~" class="index-header-img" width="180" height="180">
+                        <span>欢迎您：<%= name %></span>
+                    </div>
                 <% } %>
+              <div>
                 <span><a title="主页" href="/">主页</a></span>
                 <span><a title="发表" href="/post">发表</a></span>
                 <span><a title="登出" href="/logout">登出</a></span>
+              </div>
             <% } else { %>
                 <span><a title="登录" href="/login">登录</a></span>
                 <span><a title="注册" href="/reg">注册</a></span>
