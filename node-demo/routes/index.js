@@ -186,7 +186,8 @@ module.exports = function (app) {
     res.render('post', {
       title: '发微博',
       user: req.session.user,
-      name: req.session.user.name
+      name: req.session.user.name,
+      imgpath: req.session.user.useravator
     });
   });
   /**
@@ -225,10 +226,11 @@ module.exports = function (app) {
           return res.redirect('/');
         }
         res.render('user', {
-          title: user.name,
+          title: '所有的微博记录',
           user: req.session.user,
           posts: posts,
           name: user.name,
+          imgpath: '../' + user.useravator,
           error: req.flash('error').toString()
         });
       });
