@@ -1,6 +1,6 @@
 # nodejsStudy
-
-## 基于nodejs学习做的一个简单的微博系统
+![node](https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1841004364,244945169&fm=58&bpow=121&bpoh=75)   ![mongodb](https://perlmaven.com/img/mongodb-logo.png)
+## 基于nodejs学习做的一个简单的微博系统   
 
 > #### 技术栈
 > ##### node + express + mongodb
@@ -28,9 +28,18 @@
 5. mongodb图形化工具Robomongo
 
 ---
+>
+>
+<br>
+实现相关登录注册、发表微博、查看微博、上传头像、微博的增删改查、分页等常见功能<
+</br>
+>
+>
+---
 
 > ### 相关开发工具链接
 
+* [Express 链接](http://www.expressjs.com.cn/)
 * [mongodb 链接](https://www.mongodb.com/)
 * [Robomongo 链接](https://robomongo.org/download)
 * [node-inspector 链接](https://github.com/node-inspector/node-inspector)
