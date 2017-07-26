@@ -44,6 +44,7 @@ module.exports = function (app) {
       title: '主页',
       user: req.session.user,
       name: name,
+      success: req.flash('success').toString(),
       error: req.flash('error').toString(),
       imgpath: imgpath
     });
@@ -57,7 +58,8 @@ module.exports = function (app) {
     res.render('reg', {
       title: '注册',
       user: req.session.user,
-      error: req.flash('error').toString()
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString(),
     });
   });
   /**
@@ -72,13 +74,13 @@ module.exports = function (app) {
       req.flash("error", "两次输入的密码不一致");
       return res.redirect('/reg');
     }
-
-    // var md5 = crypto.createHash('md5');
-    // var password = md5.update(req.body['password']).digest('base64');
+    // 生成密码的md5的值
+    var md5 = crypto.createHash('md5');
+    var password = md5.update(req.body.password).digest('hex');
 
     var newUser = new User({
       name: req.body.username,
-      password: req.body.password,
+      password: password,
       useravator: 'images/defaultUserAvatar.jpg'
     });
 
@@ -151,7 +153,9 @@ module.exports = function (app) {
       title: '上传头像',
       user: req.session.user,
       name: req.session.user.name,
-      imgpath: req.session.user.useravator
+      imgpath: req.session.user.useravator,
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
     })
   });
 
@@ -187,7 +191,9 @@ module.exports = function (app) {
       title: '发微博',
       user: req.session.user,
       name: req.session.user.name,
-      imgpath: req.session.user.useravator
+      imgpath: req.session.user.useravator,
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
     });
   });
   /**
@@ -217,13 +223,13 @@ module.exports = function (app) {
     User.get(req.params.username, function (err, user) {
       if (!user) {
         req.flash('error', '用户不存在');
-        return res.redirect('/');
+        res.redirect('/');
       }
       // 用户存在的情况 从数据库中获取相应微博内容
       Post.get(user.name, function (err, posts) {
         if (err) {
           req.flash('error', err);
-          return res.redirect('/');
+          res.redirect('/');
         }
         res.render('user', {
           title: '所有的微博记录',
@@ -231,6 +237,7 @@ module.exports = function (app) {
           posts: posts,
           name: user.name,
           imgpath: '../' + user.useravator,
+          success: req.flash('success').toString(),
           error: req.flash('error').toString()
         });
       });

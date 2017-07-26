@@ -1,16 +1,28 @@
-<% include header %>
+<%- include header %>
     <h4>这是过去发表的所有微博</h4>
     <br>
    <% if(posts.length > 0) { %>
         <% for(var i = 0; i<=posts.length-1; i++ ) { %>
             <% var item = posts[i] %>
-            <p>标题: <%= posts[i].title %></p>         
-            <p>内容: <%= posts[i].post %></p>
-            <p>时间: <%= posts[i].time %></p>
+            <h3>
+                <span class="glyphicon glyphicon-tag"></span>
+                标题: <%= posts[i].title %>
+            </h3>    
+            <p>
+                <span class="text-warn">
+                    <span class="glyphicon glyphicon-user"></span>
+                    作者: <%= posts[i].username %>
+                </span> |
+                <span>
+                    <span class="glyphicon glyphicon-time"></span>
+                    日期: <%= posts[i].time %>
+                </span>
+            </p>     
+            <p><%- posts[i].post %></p>
             <p>==============================</p>
          <% }%> 
    <% }else{ %>
         <p>111111111111111</p>
    <% } %>
 
-<% include footer %>
+<%- include footer %>

@@ -2,8 +2,9 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-	<title><%= title %> - nodejsStudy</title>
-	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+    <title><%= title %> - nodejsStudy</title>
+    <link rel="stylesheet" href="/stylesheets/Normalize.css"/>
+	<link rel="stylesheet" href="/stylesheets/bootstrap.css"/>
 	<link rel="stylesheet" href="/stylesheets/style.css"/>
     </head>
     <body class="row">
@@ -32,8 +33,14 @@
             <% } %>
         </nav>
 
+        
         <!--主体部分-->
         <div id="content" class="col-md-8">  
+            <% if(success) {%>
+                <div><%= success %></div>
+            <% }else{ %>
+                <div><%= error %> </div>
+            <% } %>
         
         
 

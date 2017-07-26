@@ -1,10 +1,12 @@
 var mongodb = require('./db');
+var markdown = require('markdown').markdown;
 
-function Post(username, title, post, time)
+function Post(username, title, post, skipNumber, time)
 {
     this.username = username;
     this.title  = title;
     this.post = post;
+    this.skipNumber = skipNumber;
     if(time)
     {
         this.time = time;
@@ -25,23 +27,28 @@ Post.get = function(username, callback){
                 mongodb.close();
                 return callback(err);
             }
+            // 分页的限制数量
+            var limitNumber = 5;
+            var skipNumber  = 0;
             // 查找 user 属性为 username的endangered
             // 如果 username 是null 则匹配全部
             var query = {};
             if(username){
                 query.username = username;
             }
+            /**
+             * time -1 信息从上到下
+             * time 1  消息从旧到新展示
+             */
             collection.find(query).sort({time: -1}).toArray(function(err, docs){
                 mongodb.close();
                 if(err){
                     return callback(err, null);
                 }
-                var posts =[];
-                docs.forEach(function(doc, index){
-                    var post = new Post(doc.username, doc.title, doc.post, doc.useravator, doc.time);
-                    posts.push(post);
+                docs.forEach(function(doc){
+                    doc.post = markdown.toHTML(doc.post);
                 });
-                callback(null, posts);
+                callback(null, docs);
             });
 
         });
@@ -65,16 +72,14 @@ Post.prototype.save = function(callback){
                 mongodb.close();
                 return callback(err);
             }
-            // 为user属性添加索引
-            collection.ensureIndex('user');
             collection.insert(post, {
                 save: true
-            },function(err, post){
+            },function(err, docs){
                 mongodb.close();
                 if(err){
-                    return callback(err, null);
+                    return callback(err);
                 }
-                callback(err, post);
+                callback(null, docs);
             });
         });
     });

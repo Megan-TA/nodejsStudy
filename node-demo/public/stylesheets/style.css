@@ -1,11 +1,18 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Microsoft Yahei",Tahoma,sans-serif;
+}
+
+
+/* header start */
+.useravater-img{
+  cursor: pointer;
 }
 
 nav{
  background-color: #f5f5f5;
 }
+
 nav span{
   display: inline-block;
   width: 112px;
@@ -14,23 +21,19 @@ nav span{
   text-align: center;
 
 }
+/* header end */
+
+
+/* 右侧content start */
 #content{
   border: 1px solid red;
   height: 1000px;
   padding: 20px;
 }
+/* 右侧content end */
 
+/* footer start */
 .footer{
   display: block;
 }
-
-.index-header-img{
-  cursor: pointer;
-  text-align: center;
-  line-height: 180px;
-}
-
-
-.useravater-img{
-  cursor: pointer;
-}
+/* footer end */
