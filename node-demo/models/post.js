@@ -1,5 +1,11 @@
+/**
+* 微博模型
+* @authors chen_huang (chen_huang@ctrip.com)
+* @date 17-07-27
+* @version 1.0
+*/
+
 var mongodb = require('./db');
-var markdown = require('markdown').markdown;
 
 function Post(username, title, post, skipNumber, time)
 {
@@ -15,8 +21,10 @@ function Post(username, title, post, skipNumber, time)
     }
 }
 
-
-Post.get = function(username, callback){
+/**
+ * 获取用户发表的所有文章
+ */
+Post.getAll = function(username, callback){
     mongodb.open(function(err, db){
         if(err){
             return callback(err);
@@ -45,23 +53,153 @@ Post.get = function(username, callback){
                 if(err){
                     return callback(err, null);
                 }
-                docs.forEach(function(doc){
-                    doc.post = markdown.toHTML(doc.post);
-                });
                 callback(null, docs);
             });
 
         });
     });
-}
+};
 
+/**
+ * 获取一篇文章
+ */
+Post.getOne = function(username, title, time, callback){
+
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.findOne({
+                "title": title,
+                "username": username,
+                "time": time
+            }, function(err, doc){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
+                callback(null, doc);
+            });
+        })
+    });
+
+
+};
+
+/**
+ * 编辑一篇文章 
+ */
+Post.edit = function(username, title, time, callback){
+
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.findOne({
+                "title": title,
+                "username": username,
+                "time": time
+            }, function(err, doc){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
+
+                callback(null, doc);
+            });
+        })
+    });
+
+
+};
+
+/**
+ * 更新一篇文章 
+ */
+Post.update = function(username, title, time, post, callback){
+
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.updateOne({
+                "title": title,
+                "username": username,
+                "time": time
+            }, {
+                $set: { post: post}
+            }, function(err, doc){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
+
+                callback(null, doc);
+            });
+        })
+    });
+
+
+};
+
+/**
+ * 删除一篇文章
+ */
+Post.remove = function(username, title, time, callback){
+
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.remove({
+                "title": title,
+                "username": username,
+                "time": time
+            },  1,  function(err, doc){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
+
+                callback(null, doc);
+            });
+        })
+    });
+
+
+};
 
 Post.prototype.save = function(callback){
     var post = {
         username: this.username,
         title: this.title,
         post: this.post,
-        time: this.time
+        time: this.time,
+        comments: []
     };
     mongodb.open(function(err, db){
         if(err){

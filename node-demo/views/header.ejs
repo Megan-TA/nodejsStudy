@@ -15,11 +15,11 @@
 
         <nav class="col-md-4">
             <% if(user) { %>
-                <% if(name) { %> 
+                <% if(username) { %> 
                     <div class="">
                          <img src="<%= imgpath %>" alt="图片挂啦~" width="100" height="100" class="useravater-img">
                          <span><a title="上传" href="/upload">上传头像</a></span>
-                         <span>欢迎您：<%= name %></span>
+                         <span>欢迎您：<%= username %></span>
                     </div>
                 <% } %>
               <div>
@@ -37,10 +37,12 @@
         <!--主体部分-->
         <div id="content" class="col-md-8">  
             <% if(success) {%>
-                <div><%= success %></div>
-            <% }else{ %>
-                <div><%= error %> </div>
+                <p class="bg-success"><%= success %></p> 
             <% } %>
+            <% if(error) { %>
+            <p class="bg-danger"><%= error %> </p>
+            <% } %>
+          
         
         
 

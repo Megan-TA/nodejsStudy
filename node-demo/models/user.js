@@ -1,15 +1,22 @@
+/**
+* 用户模型
+* @authors chen_huang (chen_huang@ctrip.com)
+* @date 17-07-27
+* @version 1.0
+*/
+
 var mongodb = require('./db');
 var crypto  = require('crypto');
 
 
 function User(user){
-    this.name = user.name;
+    this.username = user.username;
     this.password = user.password;
     this.useravator = user.useravator;   
 }
 
-// 通过name读取信息
-User.get = function(name, callback){
+// 通过username读取信息
+User.get = function(username, callback){
     // 先打开数据库
     mongodb.open(function(err, db){
         if(err){
@@ -22,7 +29,7 @@ User.get = function(name, callback){
                 return callback(err);
             }
             collection.findOne({
-                name: name
+                username: username
             }, function(err, user){
                 mongodb.close();
                 if(err){
@@ -39,7 +46,7 @@ User.get = function(name, callback){
 User.prototype.save = function(callback){
     // 存入mongodb的文档
     var user = {
-        name: this.name,
+        username: this.username,
         password: this.password,
         useravator: this.useravator
     };
@@ -78,12 +85,12 @@ User.prototype.save = function(callback){
 };
 
 // 更新用户信息
-User.update = function(name, updateInfo, callback){
+User.update = function(username, updateInfo, callback){
     mongodb.open(function(err, db){
         if(err) return callback(err);
 
         db.collection('users', { safe: true }, function(err, collection){
-            collection.update({"name" : name}, {$set: updateInfo}, function(err, result){
+            collection.update({"username" : username}, {$set: updateInfo}, function(err, result){
                 mongodb.close();
                 if(err) return callback(err);
                 callback(null);
