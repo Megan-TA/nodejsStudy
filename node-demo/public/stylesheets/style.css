@@ -40,7 +40,7 @@ nav span{
 
 
 
-/* common css */
+/* common css  start */
 .text-right{
   text-align: right;
 }
@@ -68,8 +68,10 @@ label{
   -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+/* common css end */
 
-/* 更改bootstrap默认样式 */
+
+/* 更改bootstrap默认样式 start */
 p.bg-primary,
 p.bg-success,
 p.bg-info,
@@ -77,3 +79,8 @@ p.bg-warning,
 p.bg-danger{
   padding: 15px;
 }
+
+textarea.form-control{
+  padding: 10px 12px 50px 12px;
+}
+/* 更改bootstrap默认样式 end */

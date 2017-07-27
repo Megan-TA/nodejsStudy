@@ -367,15 +367,15 @@ module.exports = function (app) {
    * 微博留言
    */
    app.post('/u/username=:username/title=:title/time=:time', function(req, res){
-
+    // 根据当前用户的名称 time来获取到当前文档对象
     var username = req.params.username;
     var time  = req.params.time;
     var commentContent = (req.body.commentContent == '' || req.body.commentContent == null) ? null : req.body.commentContent ;
 
     // 留言提交的对象信息
     var comments = {
-      username: username,
-      time: time,
+      username: req.body.username,
+      time: new Date().toLocaleString(),
       comment: commentContent
     }
 
