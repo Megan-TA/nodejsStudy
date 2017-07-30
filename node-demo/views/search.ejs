@@ -1,0 +1,29 @@
+<%- include header %>
+
+    <div class="">
+        <dl class="srarchList">
+            <dt>
+                <h3 class="text-success">搜索关键词: <%= title %></h3>
+                <hr>
+            </dt>
+            <% if(posts.length > 0 ) { %>
+                <% posts.forEach(function(item){ %>
+                    <dd>
+                        <p>
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span><%= item.username %></span> |
+                            <span class="glyphicon glyphicon-time"></span>
+                            <span><%= item.time %></span>
+                        </p>
+                        <%- item.post  %>
+                    
+                    </dd>
+
+                <% }) %>
+            <% } else { %>
+                <p class="text-danger">未搜到到相关结果~</p>
+            <% } %>
+        </dl>
+    </div>
+
+<%- include footer %>

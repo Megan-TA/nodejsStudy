@@ -28,7 +28,7 @@ nav span{
 #content{
   border: 1px solid red;
   height: 1000px;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 

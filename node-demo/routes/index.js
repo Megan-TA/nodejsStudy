@@ -392,6 +392,36 @@ module.exports = function (app) {
 
 
   /**
+   * 查找一篇微博
+   */
+  app.get('/search', function(req, res){
+
+      Post.search(req.query.keyword, function(err, posts){
+        if(err){
+          req.flash('error', err);
+          return res.redirect('/');
+        }
+
+        posts.forEach((item)=>{
+          item.post = markdown.toHTML(item.post);
+        })
+
+        res.render('search', {
+          title: req.query.keyword,
+          posts: posts,
+          user: req.session.user,
+          username: req.session.user.username,
+          imgpath:  req.session.user.useravator,
+          success: req.flash('success').toString(),
+          error: req.flash('error').toString()
+        })
+
+      })
+
+  })
+
+
+  /**
    * 微博留言
    */
    app.post('/u/username=:username/title=:title/time=:time', function(req, res){

@@ -206,6 +206,39 @@ Post.remove = function(username, title, time, callback){
 
 };
 
+/**
+ * 查找一篇文章
+ */
+Post.search = function(keyword, callback){
+
+    mongodb.open(function(err, db){
+        if(err){
+            mongodb.close();
+            return callback(err);
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            var keywordParam = new RegExp(keyword, "i");
+            collection.find({
+                "title": keywordParam
+            }).sort({
+                time: -1
+            }).toArray(function(err, docs){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
+                callback(null, docs);
+            });
+        })
+    });
+
+
+};
+
 Post.prototype.save = function(callback){
     var post = {
         username: this.username,
