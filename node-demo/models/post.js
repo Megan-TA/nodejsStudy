@@ -23,8 +23,9 @@ function Post(username, title, post, skipNumber, time)
 
 /**
  * 获取用户发表的所有文章
+ * 一次获取十篇文章
  */
-Post.getAll = function(username, callback){
+Post.getAll = function(username, page, callback){
     mongodb.open(function(err, db){
         if(err){
             return callback(err);
@@ -35,9 +36,6 @@ Post.getAll = function(username, callback){
                 mongodb.close();
                 return callback(err);
             }
-            // 分页的限制数量
-            var limitNumber = 5;
-            var skipNumber  = 0;
             // 查找 user 属性为 username的endangered
             // 如果 username 是null 则匹配全部
             var query = {};
@@ -45,16 +43,31 @@ Post.getAll = function(username, callback){
                 query.username = username;
             }
             /**
-             * time -1 信息从上到下
+             * time -1 信息从新到旧
              * time 1  消息从旧到新展示
+             * 
+             * 使用 count 返回特定查询的文档数 total
              */
-            collection.find(query).sort({time: -1}).toArray(function(err, docs){
-                mongodb.close();
-                if(err){
-                    return callback(err, null);
-                }
-                callback(null, docs);
-            });
+            collection.count(query, function(err, total){
+                collection.find(query, {
+                    skip: (page - 1) * 2,
+                    limit: 2
+                }).sort({
+                    time: -1
+                }).toArray(function(err, docs){
+                    mongodb.close();
+                    if(err) return callback(err);
+                    callback(null, docs, total);
+                })
+            })
+
+            // collection.find(query).sort({time: -1}).toArray(function(err, docs){
+            //     mongodb.close();
+            //     if(err){
+            //         return callback(err, null);
+            //     }
+            //     callback(null, docs);
+            // });
 
         });
     });

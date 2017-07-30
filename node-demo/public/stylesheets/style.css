@@ -30,6 +30,8 @@ nav span{
   height: 1000px;
   padding: 20px;
 }
+
+
 /* 右侧content end */
 
 /* footer start */
@@ -68,6 +70,11 @@ label{
   -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+
+.fr{
+  float: right;
+}
+
 /* common css end */
 
 
@@ -83,4 +90,12 @@ p.bg-danger{
 textarea.form-control{
   padding: 10px 12px 50px 12px;
 }
+/* 分页样式 */
+.pagination li{
+  display: inline-block !important; 
+  margin-right: 5px;
+}
+
+
+
 /* 更改bootstrap默认样式 end */

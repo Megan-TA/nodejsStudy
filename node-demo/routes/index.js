@@ -26,6 +26,8 @@ var upload = multer({
 });
 // 引入markdown
 var markdown = require('markdown').markdown;
+// 引入自定义分页
+var pageing  = require('../public/javascripts/paging');
 
 
 module.exports = function (app) {
@@ -34,8 +36,11 @@ module.exports = function (app) {
   var defaultUserAvator = 'images/defaultUserAvatar.jpg';
 
   app.get('/', function (req, res) {
+
     var username;
     var imgpath;
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+
     // 有用户信息吐出name展示
     if (!req.session.user) {
       username = null;
@@ -44,15 +49,23 @@ module.exports = function (app) {
       username = req.session.user.username;
       imgpath = req.session.user.useravator;
     }
-    console.log(req.session.user);
-    res.render('index', {
-      title: '主页',
-      user: req.session.user,
-      username: username,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString(),
-      imgpath: imgpath
+
+    Post.getAll(username, page, function(err, posts, total){
+      if(err) return posts = [];
+      res.render('index', {
+        title: '主页',
+        user: req.session.user,
+        username: username,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * 5 + posts.length) == total,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString(),
+        imgpath: imgpath
+      });
     });
+
+    
 
   });
   /**
@@ -226,6 +239,8 @@ module.exports = function (app) {
    * 用户发表的所有微博详情页
    */
   app.get('/u/username=:username', function (req, res) {
+    // 当前的页码
+    var page = req.query.p ? parseInt(req.query.p) : 1;
     // 先验证用户是否存在
     User.get(req.params.username, function (err, user) {
       if (!user) {
@@ -234,7 +249,14 @@ module.exports = function (app) {
       }
       
       // 用户存在的情况 从数据库中获取相应微博内容
-      Post.getAll(user.username, function (err, posts) {
+      Post.getAll(user.username, page, function (err, posts, total) {
+
+        var pageSize = 2;  // 一页显示数目
+        var pageNumber = Math.ceil(total / pageSize)  //总页数
+        var pagingControl;
+
+        if(page == null) page = 1;
+
         if (err) {
           req.flash('error', err);
           return res.redirect('/');
@@ -242,10 +264,16 @@ module.exports = function (app) {
         posts.forEach(function(post){
           post.post = markdown.toHTML(post.post)
         }) 
+        // 初始化分页控件
+        pagingControl = pageing(total, page, pageSize, user.username);
+        
         res.render('user', {
           title: '所有的微博记录',
           user: req.session.user,
           posts: posts,
+          page: page,
+          pageNumber: pageNumber,
+          pagingControl: pagingControl,
           username: user.username,
           imgpath: '../' + user.useravator,
           success: req.flash('success').toString(),
