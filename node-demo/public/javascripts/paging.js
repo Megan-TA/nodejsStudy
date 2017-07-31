@@ -14,8 +14,15 @@ function paging(total, page, pageSize, username){
     if( page > 5 ){
         // 保留左边三项
         leftNum = page - 3;
-        leftList = "<li><a href='/u/username=" + username + "?p=1' class='btn btn-default btn-xs'>1</a></li>";
-        leftList += "<li><a class='btn btn-default btn-xs'>···</a></li>";
+        leftList = "<li class='disabled'>" + 
+                    "<span>" +
+                        "<span aria-hidden='true'>&laquo;</span>" +
+                    "</span>" +
+                    "</li>" +
+                    "<li>" + 
+                        "<a href='/u/username=" + username + "?p=1'>1</a>" +
+                    "</li>";
+        leftList += "<li class='disabled'><a>···</a></li>";
     }
 
     // 1··· 5 6 7 8 ··· 20
@@ -23,19 +30,29 @@ function paging(total, page, pageSize, username){
     if( (page + 5) < pageNumber ){
         // 保留右侧三项 
         rightNum = page + 3;
-        rightList = "<li><a class='btn btn-default btn-xs'>···</a></li>";
-        rightList += "<li><a href='/u/username=" + username + "?p=" + pageNumber + "' " + "class='btn btn-default btn-xs'>" + pageNumber + "</a></li>";
+        rightList = "<li class='disabled><a>···</a></li>";
+        rightList += "<li><a href='/u/username=" + username + "?p=" + pageNumber + "' " + ">" + pageNumber + "</a></li>";
     }
 
     for(var i = leftNum; i <= rightNum; i++ ){
         if(page == i ){
-            middleList += "<li><a href='/u/username=" + username + "?p="  + i + "' " + "class='btn btn-primary btn-xs active'>" + i + "</a></li>";
+            middleList += "<li><a href='/u/username=" + username + "?p="  + i + "' " + ">" + i + "</a></li>";
         }else{
-            middleList += "<li><a href='/u/username=" + username + "?p="  + i + "' " + "class='btn btn-default btn-xs'>" + i + "</a></li>";
+            middleList += "<li><a href='/u/username=" + username + "?p="  + i + "' " + ">" + i + "</a></li>";
         }
     }
 
-    result = leftList + middleList + rightList;
+    result = "<li class='disabled'>" + 
+                "<span>" +
+                    "<span aria-hidden='true'>&laquo;</span>" +
+                "</span>" +
+            "</li>" + 
+            leftList + middleList + rightList + 
+            "<li class='disabled'>" + 
+                "<span>" +
+                    "<span aria-hidden='true'>&raquo</span>" +
+                "</span>" +
+            "</li>" ;
 
     result = "<div class='fr'><ul class='pagination'>" + result + "</ul></div>";
 

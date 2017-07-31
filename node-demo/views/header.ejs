@@ -16,27 +16,30 @@
         <nav class="col-md-4">
             <% if(user) { %>
                 <% if(username) { %> 
-                    <div class="">
+                    <div>
                          <img src="<%= imgpath %>" alt="图片挂啦~" width="100" height="100" class="useravater-img">
                          <span><a title="上传" href="/upload">上传头像</a></span>
                          <span>欢迎您：<%= username %></span>
                     </div>
                 <% } %>
-              <div>
-                <span><a title="主页" href="/">主页</a></span>
-                <span><a title="发表" href="/post">发表</a></span>
-                <span><a title="历史微博" href="/u/username=<%=username %>">历史微博</a></span>
-                <span><a title="登出" href="/logout">登出</a></span>
+                <ul class="nav nav-pills margin-top-bottom-10">
+                    <li role="presentation" class="active"><a title="主页" href="/">主页</a></li>
+                    <li role="presentation"><a title="发表" href="/post">发表</a></li>
+                    <li role="presentation"><a title="历史微博" href="/u/username=<%=username %>">历史微博</a></li>
+                    <li role="presentation"><a title="登出" href="/logout">登出</a></li>
+                
+                </ul>
                 <div>
-                    <form action="/search" method="GET">
-                        <input type="text" name="keyword" placeholder="请输入要查询的微博名称" class="form-control">
-                        <button type="submit" class="btn btn-default">搜索</button>
+                    <form action="/search" method="GET" class="clearfix">
+                        <input type="text" name="keyword" placeholder="请输入要查询的微博名称" class="form-control w80 fl">
+                        <button type="submit" class="btn btn-default fr">搜索</button>
                     </form>
                 </div>
-              </div>
             <% } else { %>
-                <span><a title="登录" href="/login">登录</a></span>
-                <span><a title="注册" href="/reg">注册</a></span>
+                <ul class="nav nav-pills">    
+                    <li role="presentation"><a title="登录" href="/login">登录</a></li>
+                    <li role="presentation"><a title="注册" href="/reg">注册</a></li>
+                </ul> 
             <% } %>
         </nav>
 

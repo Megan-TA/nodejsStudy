@@ -6,6 +6,11 @@
                 defaultOverPaging = 3;
             %>
             <% if(pageNumber > defaultOverPaging) {%>
+                <li class="disabled">
+                    <span>
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
+                </li>
                 <% for(var i = 1; i <= defaultOverPaging-1; i ++) { %>
                     <li>
                         <a href="/u/username=<%= username %>?p=<%= i %>" class="btn btn-default btn-xs"><%= i %></a>
@@ -19,6 +24,11 @@
                 </li>
                 
             <% } else {%>
+                <li class="disabled">
+                    <span>
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
+                </li>
                 <% for(var i = 1; i <= defaultOverPaging -1 ; i ++) { %>
                     <li>
                         <a href="/u/username=<%= username %>?p=<%= i %>" class="btn btn-default btn-xs"><%= i %></a>
