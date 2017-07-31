@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/Normalize.css"/>
 	<link rel="stylesheet" href="/stylesheets/bootstrap.css"/>
 	<link rel="stylesheet" href="/stylesheets/style.css"/>
+    
     </head>
     <body class="row">
        
@@ -22,23 +23,22 @@
                          <span>欢迎您：<%= username %></span>
                     </div>
                 <% } %>
-                <ul class="nav nav-pills margin-top-bottom-10">
-                    <li role="presentation" class="active"><a title="主页" href="/">主页</a></li>
-                    <li role="presentation"><a title="发表" href="/post">发表</a></li>
-                    <li role="presentation"><a title="历史微博" href="/u/username=<%=username %>">历史微博</a></li>
-                    <li role="presentation"><a title="登出" href="/logout">登出</a></li>
-                
+                <ul class="nav nav-pills margin-top-bottom-10" id="header-nav">
+                    <li class="<%= navActiveNum == 1 ? 'active' : ''; %>"><a title="主页" href="/">主页</a></li>
+                    <li class="<%= navActiveNum == 2 ? 'active' : ''; %>"><a title="发表" href="/post">发表</a></li>
+                    <li class="<%= navActiveNum == 3 ? 'active' : ''; %>"><a title="历史微博" href="/u/username=<%=username %>">历史微博</a></li>
+                    <li><a title="登出" href="/logout">登出</a></li>
                 </ul>
-                <div>
+                <div class="search-control-box">
                     <form action="/search" method="GET" class="clearfix">
-                        <input type="text" name="keyword" placeholder="请输入要查询的微博名称" class="form-control w80 fl">
-                        <button type="submit" class="btn btn-default fr">搜索</button>
+                        <input type="text" name="keyword" placeholder="请输入要查询的微博名称" class="form-control w70 fl">
+                        <button type="submit" class="btn btn-default fl">搜索</button>
                     </form>
                 </div>
             <% } else { %>
                 <ul class="nav nav-pills">    
-                    <li role="presentation"><a title="登录" href="/login">登录</a></li>
-                    <li role="presentation"><a title="注册" href="/reg">注册</a></li>
+                    <li class="<%= navActiveNum == 6 ? 'active' : ''; %>"><a title="登录" href="/login">登录</a></li>
+                    <li class="<%= navActiveNum == 5 ? 'active' : ''; %>"><a title="注册" href="/reg">注册</a></li>
                 </ul> 
             <% } %>
         </nav>

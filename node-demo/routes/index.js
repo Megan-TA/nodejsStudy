@@ -61,7 +61,8 @@ module.exports = function (app) {
         isLastPage: ((page - 1) * 5 + posts.length) == total,
         success: req.flash('success').toString(),
         error: req.flash('error').toString(),
-        imgpath: imgpath
+        imgpath: imgpath,
+        navActiveNum: 1
       });
     });
 
@@ -78,6 +79,7 @@ module.exports = function (app) {
       user: req.session.user,
       success: req.flash('success').toString(),
       error: req.flash('error').toString(),
+      navActiveNum: 5
     });
   });
   /**
@@ -131,7 +133,8 @@ module.exports = function (app) {
       title: '登录',
       user: req.session.user,
       success: req.flash('success').toString(),
-      error: req.flash('error').toString()
+      error: req.flash('error').toString(),
+      navActiveNum: 6
     });
   });
   /**
@@ -215,7 +218,8 @@ module.exports = function (app) {
       username: req.session.user.username,
       imgpath: req.session.user.useravator,
       success: req.flash('success').toString(),
-      error: req.flash('error').toString()
+      error: req.flash('error').toString(),
+      navActiveNum: 2
     });
   });
   /**
@@ -277,7 +281,8 @@ module.exports = function (app) {
           username: user.username,
           imgpath: '../' + user.useravator,
           success: req.flash('success').toString(),
-          error: req.flash('error').toString()
+          error: req.flash('error').toString(),
+          navActiveNum: 3
         });
       });
     });
@@ -310,7 +315,8 @@ module.exports = function (app) {
         imgpath: '../../../' + req.session.user.useravator,
         posts: posts,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        navActiveNum: 3
       });
     });
 
@@ -338,7 +344,8 @@ module.exports = function (app) {
         imgpath: '../../../' + req.session.user.useravator,
         posts: posts,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        navActiveNum: 3
       });
     });
 
@@ -413,7 +420,8 @@ module.exports = function (app) {
           username: req.session.user.username,
           imgpath:  req.session.user.useravator,
           success: req.flash('success').toString(),
-          error: req.flash('error').toString()
+          error: req.flash('error').toString(),
+          navActiveNum: 3
         })
 
       })
