@@ -291,13 +291,11 @@ module.exports = function (app) {
   /**
    * 用户发表的具体某一篇微博页面
    */
-  app.get('/u/username=:username/title=:title/time=:time', function(req, res){
+  app.get('/p/userID=:id', function(req, res){
 
-    var username = decodeURI(req.params.username);
-    var title    = decodeURI(req.params.title);
-    var time     = decodeURI(req.params.time);
+    var userID = req.params.id;
 
-    Post.getOne(username, title, time, function(err, posts){
+    Post.getOne(userID, function(err, posts){
       if(err){
         req.flash('error', err);
         return res.redirect('/');

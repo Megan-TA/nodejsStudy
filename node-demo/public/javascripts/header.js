@@ -4,7 +4,7 @@ define(['jquery'], function ($) {
         this.name = 'header';
     }
 
-    header.prototype.customization = {
+    header.prototype = {
 
         init: function () {
             this.methods();

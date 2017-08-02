@@ -6,6 +6,7 @@
 */
 
 var mongodb = require('./db');
+var ObjectID  = require('mongodb').ObjectID;
 
 function Post(username, title, post, skipNumber, time)
 {
@@ -76,7 +77,7 @@ Post.getAll = function(username, page, callback){
 /**
  * 获取一篇文章
  */
-Post.getOne = function(username, title, time, callback){
+Post.getOne = function(_id, callback){
 
     mongodb.open(function(err, db){
         if(err){
@@ -89,9 +90,7 @@ Post.getOne = function(username, title, time, callback){
                 return callback(err);
             }
             collection.findOne({
-                "title": title,
-                "username": username,
-                "time": time
+                "_id": new ObjectID(_id)
             }, function(err, doc){
                 if(err){
                     mongodb.close();

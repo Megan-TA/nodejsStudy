@@ -11,6 +11,10 @@ function paging(total, page, pageSize, username){
     var baseUrl = "/u/username=" + username + "?p="; 
     var lastPage;
     var nextPage;
+    var result1;
+    var result2;
+
+
     if(pageNumber == 1 ) return;
 
     // 1 ··· 3
@@ -40,29 +44,38 @@ function paging(total, page, pageSize, username){
         }
     }
 
+    // 最左侧和最后侧极限情况
     if( (page - 1) >= 1) {
         lastPage = page - 1;
+        result1 = "<li>" + 
+                    "<a href='" + baseUrl + lastPage  + "'>" +
+                    "&laquo;</a>" +
+                  "</li>";
     }else{
         lastPage = 1;
+        result1 = "<li class='disabled'>" +
+                    "<span>&laquo;</span>" +
+                  "</li>";
     }
     if( (page + 1) <= pageNumber) {
         nextPage = page + 1;
+        result2 = "<li>" +
+                    "<a href='" + baseUrl + nextPage  + "'>" +
+                    "&raquo</a>" +
+                 "</li>";
     }else{
         nextPage = pageNumber;
+        result2 = "<li class='disabled'>" + 
+                    "<span>&raquo</span>" +
+                  "</li>";
     }
 
 
-    result = "<li>" + 
-                "<a href='" + baseUrl + lastPage  + "'>" +
-                "&laquo;</a>" +
-            "</li>" + 
-            leftList + middleList + rightList + 
-            "<li>" +
-                "<a href='" + baseUrl + nextPage  + "'>" +
-                "&raquo</a>" +
-            "</li>" ;
+    result = result1 + leftList + middleList + rightList + result2;
 
     result = "<div class='fr'><ul class='pagination'>" + result + "</ul></div>";
+
+
 
     return result;
 

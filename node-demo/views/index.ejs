@@ -1,10 +1,14 @@
 <%- include header %>
 
-  <div class="jumbotron clearfix">
-    <h1>Welcome to homepage!</h1>
-    <p>
-      <a class="btn btn-primary btn-lg" href="/post">发表一篇微博</a>
-    </p>
-  </div>
+  <% if(user) { %>
+    <div class="jumbotron clearfix">
+      <h1>Welcome to homepage!</h1>
+      <p>
+        <a class="btn btn-primary btn-lg" href="/post">发表一篇微博</a>
+      </p>
+    </div>
+  <% }else{ %>
+    <p class="bg-warning">请尽快注册登录查看更多内容哦~</p>
+  <% } %>
   
 <%- include footer %>
