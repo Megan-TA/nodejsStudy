@@ -1,0 +1,81 @@
+body {
+  padding: 50px;
+  font: 14px "Microsoft Yahei",Tahoma,sans-serif;
+}
+
+
+/* header start */
+.useravater-img{
+  cursor: pointer;
+}
+.margin-top-bottom-10{
+  margin: 10px 0;
+}
+.form-control.w70{
+  width: 70% !important;
+}
+
+.search-control-box{
+  margin-bottom: 10px;
+}
+.search-control-box button.btn{
+  margin-left: 10px;
+}
+/* header end */
+
+
+/* 右侧content start */
+#content{
+  border: 1px solid red;
+  height: 1000px;
+  padding: 0 20px;
+}
+
+
+/* 右侧content end */
+
+/* footer start */
+.footer{
+  display: block;
+}
+/* footer end */
+
+
+
+/* common css  start */
+.text-right{
+  text-align: right;
+}
+label{
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.fr{
+  float: right;
+}
+
+.fl{
+  float: left;
+}
+/* common css end */
+
+
+/* 更改bootstrap默认样式 start */
+p.bg-primary,
+p.bg-success,
+p.bg-info,
+p.bg-warning,
+p.bg-danger{
+  padding: 15px;
+}
+
+textarea.form-control{
+  padding: 10px 12px 50px 12px;
+}
+
+
+
+/* 更改bootstrap默认样式 end */

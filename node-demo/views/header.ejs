@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+    <title><%= title %> - nodejsStudy</title>
+    <link rel="stylesheet" href="/stylesheets/Normalize.css"/>
+	<link rel="stylesheet" href="/stylesheets/bootstrap.css"/>
+	<link rel="stylesheet" href="/stylesheets/style.css"/>
+    
+    </head>
+    <body class="row">
+       
+       <header>
+            <h1><%= title %></h1>
+       </header>
+
+        <nav class="col-md-4">
+            <% if(user) { %>
+                <% if(username) { %> 
+                    <div>
+                         <img src="<%= imgpath %>" alt="图片挂啦~" width="100" height="100" class="useravater-img">
+                         <span><a title="上传" href="/upload">上传头像</a></span>
+                         <span>欢迎您：<%= username %></span>
+                    </div>
+                <% } %>
+                <ul class="nav nav-pills margin-top-bottom-10" id="header-nav">
+                    <li class="<%= navActiveNum == 1 ? 'active' : ''; %>"><a title="主页" href="/">主页</a></li>
+                    <li class="<%= navActiveNum == 2 ? 'active' : ''; %>"><a title="发表" href="/post">发表</a></li>
+                    <li class="<%= navActiveNum == 3 ? 'active' : ''; %>"><a title="历史微博" href="/u/username=<%=username %>">历史微博</a></li>
+                    <li><a title="登出" href="/logout">登出</a></li>
+                </ul>
+                <div class="search-control-box">
+                    <form action="/search" method="GET" class="clearfix">
+                        <input type="text" name="keyword" placeholder="请输入要查询的微博名称" class="form-control w70 fl">
+                        <button type="submit" class="btn btn-default fl">搜索</button>
+                    </form>
+                </div>
+            <% } else { %>
+                <ul class="nav nav-pills">    
+                    <li class="<%= navActiveNum == 6 ? 'active' : ''; %>"><a title="登录" href="/login">登录</a></li>
+                    <li class="<%= navActiveNum == 5 ? 'active' : ''; %>"><a title="注册" href="/reg">注册</a></li>
+                </ul> 
+            <% } %>
+        </nav>
+
+        
+        <!--主体部分-->
+        <div id="content" class="col-md-8">  
+            <% if(success) {%>
+                <p class="bg-success"><%= success %></p> 
+            <% } %>
+            <% if(error) { %>
+            <p class="bg-danger"><%= error %> </p>
+            <% } %>
+          
+        
+        
+
+        

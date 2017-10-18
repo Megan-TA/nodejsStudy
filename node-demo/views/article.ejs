@@ -1,0 +1,49 @@
+<%- include header %>
+
+    <div class="article">
+
+        <h3>
+            <a href="/u/username=<%= posts.username %>">
+                <%= posts.title %>
+            </a>
+        </h3>
+
+        <p>
+            <span class="glyphicon glyphicon-user"></span>
+            <span>作者: <%= posts.username %></span> |
+            <span class="glyphicon glyphicon-time"></span>
+            <span><%= posts.time %></span>
+        </p>
+
+        <%- posts.post%>
+
+            <p class="text-right">
+                <a class="btn btn-default btn-sm" href="/edit/username=<%= posts.username %>/title=<%= posts.title %>/time=<%= posts.time %>">编辑</a>
+                <a class="btn btn-warning btn-sm" href="/remove/username=<%= posts.username %>/title=<%= posts.title %>/time=<%= posts.time %>">删除</a>
+            </p>
+
+            <hr>
+            <h3>下方高能区， 穿好防弹衣</h3>
+            
+            <!-- 展示留言信息 -->
+            <% if(posts.comments){ %>
+                <% posts.comments.forEach(function(item){ %>
+                    <ul>
+                        <li>
+                            <p>-----------------------</p>
+                            <p>
+                                <span>用户：</span>
+                                <span><%= item.username%></span> |
+                                <span><%= item.time %></span>
+                            </p>
+                            <%- item.comment %>
+                            <p>-----------------------</p>
+                        </li>
+                    </ul>
+
+                    <% }); %>
+                <% } %>
+            <%- include comment %>
+    </div>
+
+    <%- include footer %>
